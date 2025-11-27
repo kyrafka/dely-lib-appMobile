@@ -30,4 +30,18 @@ interface CompraApi {
         @Header("X-Session-Id") sessionId: String,
         @Path("id") compraId: Long
     ): Response<CompraDTO>
+
+    // Nuevo: Actualizar estado de compra (para EMPRESA)
+    @PATCH("api/v1/compras/{id}/estado")
+    suspend fun actualizarEstadoCompra(
+        @Header("X-Session-Id") sessionId: String,
+        @Path("id") compraId: Long,
+        @Body estado: Map<String, String> // {"estadoProcesoCompra": "EMPAQUETADO"}
+    ): Response<CompraDTO>
+
+    // Nuevo: Obtener todas las compras (para EMPRESA)
+    @GET("api/v1/compras/all")
+    suspend fun getAllCompras(
+        @Header("X-Session-Id") sessionId: String
+    ): Response<List<CompraDTO>>
 }

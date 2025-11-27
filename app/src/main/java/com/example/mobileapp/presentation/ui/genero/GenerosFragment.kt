@@ -25,18 +25,22 @@ import com.example.mobileapp.presentation.ui.libro.LibroDetalleFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import com.example.mobileapp.presentation.ui.carrito.CarritoFragment
 import com.example.mobileapp.presentation.ui.inventario.InventarioFragment
+import kotlinx.coroutines.launch
 
 class GenerosFragment : Fragment(R.layout.fragment_generos) {
 
     private val viewModel: GeneroViewModel by viewModels {
-        GeneroViewModelFactory(GeneroRepository(RetrofitClient.generoApi))
+        GeneroViewModelFactory(GeneroRepository(RetrofitClient.generoApi, requireContext()))
     }
 
     private lateinit var adapter: GeneroAdapter
     private var generosCache: List<com.example.mobileapp.data.remote.model.genero.GeneroDTO> = emptyList()
     private var filtroGeneroId: Long? = null
+    private lateinit var rv: RecyclerView
+    private lateinit var tvCartBadge: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,19 +72,20 @@ class GenerosFragment : Fragment(R.layout.fragment_generos) {
         }
 
         // Bottom bar icons
-        val navHome = view.findViewById<ImageView>(R.id.navHome)
-        val navCart = view.findViewById<ImageView>(R.id.navCart)
-        val navOrders = view.findViewById<ImageView>(R.id.navOrders)
-        val navAdd = view.findViewById<ImageView>(R.id.navAdd)
-        val navInventory = view.findViewById<ImageView>(R.id.navInventary)
+        val navHome = view.findViewById<View>(R.id.navHome)
+        val navCart = view.findViewById<View>(R.id.navCart)
+        val navOrders = view.findViewById<View>(R.id.navOrders)
+        val navAdd = view.findViewById<View>(R.id.navAdd)
+        val navInventory = view.findViewById<View>(R.id.navInventary)
+        tvCartBadge = view.findViewById(R.id.tvCartBadge)
         // Recycler + progress + filtros
-        val rv = view.findViewById<RecyclerView>(R.id.rvGeneros)
+        rv = view.findViewById<RecyclerView>(R.id.rvGeneros)
         val progress = view.findViewById<ProgressBar>(R.id.progress)
         val filterContainer = view.findViewById<ChipGroup>(R.id.filterContainer)
 
         val sessionId = SessionStore.sessionId ?: ""
         adapter = GeneroAdapter(sessionId, { libro ->
-            // ⭐ NAVEGAR AL DETALLE DEL LIBRO
+            // ⭁ENAVEGAR AL DETALLE DEL LIBRO
             libro.idLibro?.let { libroId ->
                 val detalleFragment = LibroDetalleFragment.newInstance(libroId)
                 parentFragmentManager.beginTransaction()
@@ -121,7 +126,15 @@ class GenerosFragment : Fragment(R.layout.fragment_generos) {
             // enviar libros al adapter sin filtros globales
             map.forEach { (generoId, libros) -> adapter.submitLibros(generoId, libros) }
         }
-        viewModel.loading.observe(viewLifecycleOwner) { progress.visibility = if (it) View.VISIBLE else View.GONE }
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                progress.alpha = 0f
+                progress.visibility = View.VISIBLE
+                progress.animate().alpha(1f).setDuration(300).start()
+            } else {
+                progress.animate().alpha(0f).setDuration(300).withEndAction { progress.visibility = View.GONE }.start()
+            }
+        }
         viewModel.error.observe(viewLifecycleOwner) {
             if (it != null) Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
@@ -148,8 +161,10 @@ class GenerosFragment : Fragment(R.layout.fragment_generos) {
                 .commit()
         }
         navOrders.setOnClickListener {
-            // TODO: reemplazar por tu OrdenesFragment cuando esté
-            Toast.makeText(requireContext(), "Ir a Órdenes", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, com.example.mobileapp.presentation.ui.ordenes.OrdenesFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
         }
         navAdd.setOnClickListener {
             // Abrir el formulario para EMPRESA
@@ -176,6 +191,31 @@ class GenerosFragment : Fragment(R.layout.fragment_generos) {
         super.onResume()
         // Refrescar al volver del formulario
         viewModel.cargarGeneros(SessionStore.sessionId ?: "")
+        // Actualizar badge del carrito
+        actualizarBadgeCarrito()
+    }
+
+    private fun actualizarBadgeCarrito() {
+        val sessionId = SessionStore.sessionId ?: return
+        
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.carritoApi.getMyCart(sessionId)
+                if (response.isSuccessful) {
+                    val items = response.body() ?: emptyList()
+                    val totalItems = items.sumOf { it.cantidad }
+                    
+                    if (totalItems > 0) {
+                        tvCartBadge.visibility = View.VISIBLE
+                        tvCartBadge.text = if (totalItems > 99) "99+" else totalItems.toString()
+                    } else {
+                        tvCartBadge.visibility = View.GONE
+                    }
+                }
+            } catch (e: Exception) {
+                // Silenciosamente fallar, no es crítico
+            }
+        }
     }
 
     private fun renderChips(container: ChipGroup, generos: List<com.example.mobileapp.data.remote.model.genero.GeneroDTO>) {
@@ -197,6 +237,7 @@ class GenerosFragment : Fragment(R.layout.fragment_generos) {
         container.addView(buildChip("TODOS", filtroGeneroId == null) {
             filtroGeneroId = null
             // actualizar lista visible
+            android.transition.TransitionManager.beginDelayedTransition(rv)
             adapter.submitGeneros(generos)
         })
 
@@ -206,6 +247,8 @@ class GenerosFragment : Fragment(R.layout.fragment_generos) {
             container.addView(buildChip(g.nombre, selected) {
                 filtroGeneroId = g.idGenero
                 val listaMostrar = generos.filter { it.idGenero == g.idGenero }
+                // Animate the change
+                android.transition.TransitionManager.beginDelayedTransition(rv)
                 adapter.submitGeneros(listaMostrar)
             })
         }

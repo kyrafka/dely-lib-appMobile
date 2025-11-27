@@ -35,6 +35,15 @@
             android:textSize="20sp"
             android:textColor="#4B0082"
             android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/btnMore"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="Opciones"
+            app:tint="#4B0082"/>
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -74,56 +83,109 @@
             app:singleLine="true" />
     </HorizontalScrollView>
 
-    <TextView
-        android:id="@+id/tvInfoReglas"
+    <!-- Banner de modo eliminación -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/deleteModeBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="#FFEBEE"
+        app:cardCornerRadius="8dp"
+        app:strokeColor="#D32F2F"
+        app:strokeWidth="1dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/editorialScroll"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_delete"
+                app:tint="#D32F2F"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Modo eliminación activo. Toca un libro para quitarlo."
+                android:textColor="#D32F2F"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:id="@+id/btnCloseDeleteMode"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_remove"
+                app:tint="#D32F2F"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Título de la sección -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTitulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:textColor="#4B0082"
-        android:textSize="12sp"
-        android:text="Regla: No puedes eliminar un libro sin quitar su asociación. No puedes eliminar un género si tiene libros asociados."
-        app:layout_constraintTop_toBottomOf="@+id/editorialScroll"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/deleteModeBanner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📚 Biblioteca"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary" />
+
+            <TextView
+                android:id="@+id/tvInfoReglas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:text="Explora los libros de este género" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Estantería de libros -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLibros"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvInfoReglas"
-        app:layout_constraintBottom_toTopOf="@id/bottomActions"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/bottomActions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/cardTitulo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnToggleDeleteMode"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Modo eliminación"
-            style="@style/Widget.Material3.Button.OutlinedButton"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEliminarGenero"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Eliminar género"
-            style="@style/Widget.Material3.Button"
-            android:backgroundTint="#B00020"
-            android:textColor="#FFFFFF"/>
-
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ProgressBar
         android:id="@+id/progress"

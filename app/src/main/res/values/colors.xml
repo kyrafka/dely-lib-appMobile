@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="purple_500">#6200EE</color>
-    <color name="purple_700">#3700B3</color>
-    <color name="teal_200">#03DAC5</color>
-    <!-- Primary Colors -->
-    <color name="purple_primary">#6A0DAD</color>
-    <color name="purple_light">#9B4DDA</color>
-
-    <!-- Accent -->
-    <color name="gold_accent">#f8de7e</color>
-
-    <!-- Background -->
-    <color name="background_light">#FFF8E7</color>
+    <!-- Colores Base - Morado vibrante -->
+    <color name="primary">#7C4DFF</color>
+    <color name="primary_dark">#6200EA</color>
+    <color name="accent">#FFD600</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    
+    <!-- Tema Claro -->
+    <color name="background_light">#F5F5F5</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="text_primary_light">#212121</color>
+    <color name="text_secondary_light">#757575</color>
+    
+    <!-- Tema Oscuro -->
+    <color name="primary_dark_theme">#BB86FC</color>
+    <color name="primary_variant_dark_theme">#3700B3</color>
+    <color name="accent_dark_theme">#03DAC6</color>
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="text_primary_dark">#E1E1E1</color>
+    <color name="text_secondary_dark">#B0B0B0</color>
+    
+    <!-- Estados de Pedido -->
+    <color name="estado_pendiente">#FFA726</color>
+    <color name="estado_pagado">#66BB6A</color>
+    <color name="estado_empaquetado">#42A5F5</color>
+    <color name="estado_enviado">#AB47BC</color>
+    <color name="estado_entregado">#26A69A</color>
+    
+    <!-- Estrellas -->
+    <color name="star_filled">#FFD700</color>
+    <color name="star_empty">#CCCCCC</color>
+    
+    <!-- Colores genéricos (compatibilidad con layouts existentes) -->
+    <color name="text_secondary">#757575</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="primary_variant">#3700B3</color>
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F5F5</color>
+    <color name="outline">#CCCCCC</color>
+    <color name="outline_variant">#E0E0E0</color>
+    <color name="error">#B00020</color>
+    <color name="divider">#E0E0E0</color>
+    <color name="gray_light">#F5F5F5</color>
+    <color name="green">#4CAF50</color>
 </resources>

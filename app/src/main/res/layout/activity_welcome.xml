@@ -14,7 +14,7 @@
         android:layout_height="120dp"
         android:layout_marginTop="180dp"
         android:src="@drawable/ic_menu_book"
-        android:tint="#4B0082" />
+        android:importantForAccessibility="no" />
 
     <TextView
         android:id="@+id/tvWelcome"

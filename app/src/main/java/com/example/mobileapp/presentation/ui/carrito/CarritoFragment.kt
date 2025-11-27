@@ -15,7 +15,6 @@ import com.example.mobileapp.R
 import com.example.mobileapp.data.remote.RetrofitClient
 import com.example.mobileapp.data.remote.SessionStore
 import com.example.mobileapp.data.remote.model.carrito.CarritoDTO
-import com.example.mobileapp.data.repository.CarritoRepository
 import com.example.mobileapp.presentation.ui.checkout.CheckoutFragment
 import com.example.mobileapp.presentation.ui.libro.LibroDetalleFragment
 import kotlinx.coroutines.launch
@@ -23,12 +22,20 @@ import kotlinx.coroutines.launch
 class CarritoFragment : Fragment(R.layout.fragment_carrito) {
 
     private val viewModel: CarritoViewModel by viewModels {
-        CarritoViewModelFactory(CarritoRepository(RetrofitClient.carritoApi))
+        object : androidx.lifecycle.ViewModelProvider.Factory {
+            override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(CarritoViewModel::class.java)) {
+                    val repository = com.example.mobileapp.data.repository.CarritoRepository(RetrofitClient.carritoApi)
+                    @Suppress("UNCHECKED_CAST")
+                    return CarritoViewModel(repository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
     }
-
     private lateinit var adapter: CarritoAdapter
     private lateinit var tvTotal: TextView
-    private lateinit var tvEmpty: TextView
+    private lateinit var tvEmpty: View
     private lateinit var rvCarrito: RecyclerView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,13 +97,20 @@ class CarritoFragment : Fragment(R.layout.fragment_carrito) {
             actualizarUI(items)
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            // Mostrar/ocultar loading si tienes un ProgressBar
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+            }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            val progressBar = view?.findViewById<View>(R.id.progressBar)
+            if (isLoading) {
+                progressBar?.alpha = 0f
+                progressBar?.visibility = View.VISIBLE
+                progressBar?.animate()?.alpha(1f)?.setDuration(300)?.start()
+            } else {
+                progressBar?.animate()?.alpha(0f)?.setDuration(300)?.withEndAction { progressBar?.visibility = View.GONE }?.start()
             }
         }
     }
@@ -150,9 +164,6 @@ class CarritoFragment : Fragment(R.layout.fragment_carrito) {
         }
     }
 
-
-
-
     private fun cargarCarrito() {
         val sessionId = SessionStore.sessionId ?: ""
         viewModel.cargarCarrito(sessionId)
@@ -164,14 +175,13 @@ class CarritoFragment : Fragment(R.layout.fragment_carrito) {
             return
         }
 
-        // **AQUÍ ESTÁ LA CORRECCIÓN DEL ERROR**
         val sessionId = SessionStore.sessionId ?: ""
-        val libroId = item.idLibro ?: return // Si es null, no hacer nada
+        val libroId = item.idLibro ?: return
 
         val carritoDTO = CarritoDTO(
             idCarrito = item.idCarrito,
-            idUsuario = item.idUsuario ?: return, // Si es null, no hacer nada
-            idLibro = libroId, // Ahora es Long, no Long?
+            idUsuario = item.idUsuario ?: return,
+            idLibro = libroId,
             cantidad = nuevaCantidad,
             precioUnitario = item.precioUnitario
         )

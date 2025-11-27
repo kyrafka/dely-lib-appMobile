@@ -24,14 +24,34 @@ class GeneroViewModel(private val repo: GeneroRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 _loading.value = true
+                _error.value = null
+                
+                android.util.Log.d("GeneroViewModel", "Cargando géneros con sessionId: $sessionId")
+                
                 val response = repo.findAllGeneros(sessionId)
+                
+                android.util.Log.d("GeneroViewModel", "Response code: ${response.code()}")
+                android.util.Log.d("GeneroViewModel", "Response successful: ${response.isSuccessful}")
+                
                 if (response.isSuccessful) {
-                    _generos.value = response.body() ?: emptyList()
+                    val generos = response.body() ?: emptyList()
+                    android.util.Log.d("GeneroViewModel", "Géneros recibidos: ${generos.size}")
+                    generos.forEach { genero ->
+                        android.util.Log.d("GeneroViewModel", "Género: ${genero.nombre} (ID: ${genero.idGenero})")
+                    }
+                    _generos.value = generos
+                    
+                    if (generos.isEmpty()) {
+                        _error.value = "No hay géneros disponibles en el sistema"
+                    }
                 } else {
-                    _error.value = "Error al cargar géneros: ${response.code()}"
+                    val errorBody = response.errorBody()?.string()
+                    android.util.Log.e("GeneroViewModel", "Error response: $errorBody")
+                    _error.value = "Error al cargar géneros: ${response.code()} - ${response.message()}"
                 }
             } catch (e: Exception) {
-                _error.value = e.message
+                android.util.Log.e("GeneroViewModel", "Exception al cargar géneros", e)
+                _error.value = "Error de conexión: ${e.message}"
             } finally {
                 _loading.value = false
             }

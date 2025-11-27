@@ -63,8 +63,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 .commit()
         }
 
-
-
         // Observamos resultado del login
         viewModel.loginResult.observe(viewLifecycleOwner) { response ->
             try {
@@ -84,6 +82,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     // ⚡ Guardar también en SessionStore (para usar en otras pantallas)
                     SessionStore.sessionId = body.sessionId
                     SessionStore.rol = body.rol
+                    SessionStore.isOfflineMode = false // Asegurar que no esté en offline si loguea bien
 
                     Log.d("LoginFragment", "Session ID recibido: ${body.sessionId}")
 

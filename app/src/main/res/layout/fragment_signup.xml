@@ -8,13 +8,12 @@
     android:padding="24dp">
 
     <!-- Botón Volver -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#6A1B9A"
+        style="@style/Widget.Material3.Button.TonalButton"
         android:text="← Volver"
-        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,10 +45,10 @@
                 android:id="@+id/tvTitleRegistro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Registro"
-                android:textSize="24sp"
+                android:text="@string/register"
+                android:textSize="28sp"
                 android:textStyle="bold"
-                android:textColor="#6A1B9A"
+                android:textColor="@color/primary"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="24dp"/>
 
@@ -57,82 +56,85 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:hint="Nombre">
+                android:layout_marginBottom="16dp"
+                android:hint="Nombre"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"/>
+                    android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:hint="Apellido">
+                android:layout_marginBottom="16dp"
+                android:hint="Apellido"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etApellido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"/>
+                    android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Nuevo campo Correo -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:hint="Correo electrónico">
+                android:layout_marginBottom="16dp"
+                android:hint="@string/email"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:padding="12dp"/>
+                    android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:hint="Fecha de nacimiento">
+                android:layout_marginBottom="16dp"
+                android:hint="@string/birth_date"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:helperText="Formato: YYYY-MM-DD"
+                app:helperTextEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etFecha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"/>
+                    android:inputType="date"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:hint="Contraseña">
+                android:hint="@string/password"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Botón de registro -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Registrarse"
-                android:textColor="#fff"
-                android:backgroundTint="#6A1B9A"
-                android:padding="12dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="8dp"/>
+                android:layout_height="56dp"
+                android:text="@string/register"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.Material3.Button"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

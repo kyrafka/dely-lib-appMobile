@@ -1,30 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MobileApp</string>
-    <string name="login_title">Login</string>
-        <string name="email_hint">Correo electrónico</string>
-        <string name="password_hint">Contraseña</string>
-        <string name="login_button">Login</string>
-        <string name="new_user_prompt">¿Eres nuevo usuario?</string>
-        <string name="register_button">Registrarse</string>
-    <string name="category_poetry">Poetry</string>
-    <string name="category_romance">Romance</string>
-    <string name="filter_misterio">MISTERIO</string>
-    <string name="filter_erotico">EROTICO</string>
-    <string name="filter_ciencia">CIENCIA</string>
-    <string-array name="idiomas_array">
-        <item>Español</item>
-        <item>Inglés</item>
-        <item>Francés</item>
-        <item>Alemán</item>
-        <item>Portugués</item>
-        <item>Italiano</item>
-    </string-array>
-    <string-array name="ediciones_array">
-        <item>Primera</item>
-        <item>Segunda</item>
-        <item>Tercera</item>
-        <item>Otra…</item>
-    </string-array>
-    <string name="isbn_helper">Ejemplo ISBN-13: 978-3-16-148410-0</string>
+    <string name="app_name">Dely Lib</string>
+    
+    <!-- Autenticación -->
+    <string name="login">Iniciar Sesión</string>
+    <string name="register">Registrarse</string>
+    <string name="email">Correo Electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="full_name">Nombre Completo</string>
+    <string name="birth_date">Fecha de Nacimiento</string>
+    <string name="logout">Cerrar Sesión</string>
+    
+    <!-- Navegación -->
+    <string name="home">Inicio</string>
+    <string name="catalog">Catálogo</string>
+    <string name="cart">Carrito</string>
+    <string name="orders">Mis Órdenes</string>
+    <string name="profile">Perfil</string>
+    
+    <!-- Libros -->
+    <string name="books">Libros</string>
+    <string name="book_details">Detalles del Libro</string>
+    <string name="author">Autor</string>
+    <string name="publisher">Editorial</string>
+    <string name="pages">Páginas</string>
+    <string name="language">Idioma</string>
+    <string name="isbn">ISBN</string>
+    <string name="price">Precio</string>
+    <string name="stock">Stock</string>
+    <string name="add_to_cart">Agregar al Carrito</string>
+    <string name="synopsis">Sinopsis</string>
+    <string name="rating">Calificación</string>
+    <string name="reviews">Reseñas</string>
+    
+    <!-- Carrito -->
+    <string name="my_cart">Mi Carrito</string>
+    <string name="empty_cart">Tu carrito está vacío</string>
+    <string name="quantity">Cantidad</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="total">Total</string>
+    <string name="checkout">Proceder al Pago</string>
+    <string name="remove">Eliminar</string>
+    
+    <!-- Checkout -->
+    <string name="shipping_address">Dirección de Envío</string>
+    <string name="select_location">Seleccionar Ubicación</string>
+    <string name="confirm_location">Confirmar Ubicación</string>
+    <string name="street">Calle</string>
+    <string name="district">Distrito</string>
+    <string name="city">Ciudad</string>
+    <string name="pay_now">Pagar Ahora</string>
+    
+    <!-- Órdenes -->
+    <string name="order">Orden</string>
+    <string name="order_number">Orden #%1$d</string>
+    <string name="order_date">Fecha</string>
+    <string name="order_status">Estado</string>
+    <string name="order_details">Detalles de la Orden</string>
+    <string name="track_order">Seguimiento</string>
+    <string name="customer">Cliente</string>
+    <string name="customer_id">Cliente ID: %1$d</string>
+    
+    <!-- Estados -->
+    <string name="status_pending">Pendiente</string>
+    <string name="status_paid">Pagado</string>
+    <string name="status_packaged">Empaquetado</string>
+    <string name="status_shipped">Enviado</string>
+    <string name="status_delivered">Entregado</string>
+    <string name="all_status">Todos</string>
+    
+    <!-- Filtros -->
+    <string name="filter_by">Filtrar por</string>
+    <string name="search">Buscar</string>
+    <string name="genre">Género</string>
+    
+    <!-- Mensajes -->
+    <string name="loading">Cargando…</string>
+    <string name="error">Error</string>
+    <string name="success">Éxito</string>
+    <string name="no_results">No se encontraron resultados</string>
+    <string name="network_error">Error de conexión</string>
+    <string name="added_to_cart">Agregado al carrito</string>
+    <string name="order_placed">Orden realizada con éxito</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    
+    <!-- Configuración -->
+    <string name="settings">Configuración</string>
+    <string name="theme">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Sistema</string>
+    <string name="language_setting">Idioma</string>
+    
+    <!-- Reseñas -->
+    <string name="write_review">Escribir Reseña</string>
+    <string name="your_rating">Tu Calificación</string>
+    <string name="your_review">Tu Reseña</string>
+    <string name="submit_review">Enviar Reseña</string>
+    <string name="no_reviews">Sin reseñas aún</string>
+    <string name="average_rating">Calificación Promedio</string>
+    
+    <!-- Helpers -->
+    <string name="isbn_helper">Formato: 978-3-16-148410-0</string>
     <string name="fecha_formato_helper">Formato: YYYY-MM-DD</string>
 </resources>

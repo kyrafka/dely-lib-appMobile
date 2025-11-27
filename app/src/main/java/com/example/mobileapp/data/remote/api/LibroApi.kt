@@ -41,7 +41,7 @@ interface LibroApi {
         @Header("X-Session-Id") sessionId: String,
         @Path("id") libroId: Long,
         @Part file: MultipartBody.Part
-    ): Response<String>
+    ): Response<Unit>
 
     // Eliminar libro
     @DELETE("api/v1/libros/{id}")

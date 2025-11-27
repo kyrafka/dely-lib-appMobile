@@ -3,9 +3,8 @@ package com.example.mobileapp.presentation.ui.inventario
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,17 +14,18 @@ import com.example.mobileapp.R
 import com.example.mobileapp.data.remote.RetrofitClient
 import com.example.mobileapp.data.remote.SessionStore
 import com.example.mobileapp.data.repository.InventarioRepository
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class InventarioFragment : Fragment(R.layout.fragment_inventario) {
 
     private val viewModel: InventarioViewModel by viewModels {
-        InventarioViewModelFactory(InventarioRepository(RetrofitClient.inventarioApi))
+        InventarioViewModelFactory(InventarioRepository(RetrofitClient.inventarioApi, requireContext()))
     }
 
     private lateinit var adapter: InventarioAdapter
     private lateinit var rvInventario: RecyclerView
-    private lateinit var tvEmpty: TextView
+    private lateinit var emptyState: LinearLayout
     private lateinit var progressBar: ProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +53,7 @@ class InventarioFragment : Fragment(R.layout.fragment_inventario) {
 
     private fun initViews(view: View) {
         rvInventario = view.findViewById(R.id.rvInventario)
-        tvEmpty = view.findViewById(R.id.tvEmptyInventario)
+        emptyState = view.findViewById(R.id.emptyState)
         progressBar = view.findViewById(R.id.progressBar)
     }
 
@@ -87,7 +87,7 @@ class InventarioFragment : Fragment(R.layout.fragment_inventario) {
     private fun setupObservers() {
         viewModel.inventarios.observe(viewLifecycleOwner) { inventarios ->
             adapter.submitList(inventarios)
-            tvEmpty.visibility = if (inventarios.isEmpty()) View.VISIBLE else View.GONE
+            emptyState.visibility = if (inventarios.isEmpty()) View.VISIBLE else View.GONE
             rvInventario.visibility = if (inventarios.isEmpty()) View.GONE else View.VISIBLE
         }
 
@@ -111,10 +111,10 @@ class InventarioFragment : Fragment(R.layout.fragment_inventario) {
     }
 
     private fun setupClickListeners(view: View) {
-        val btnBack = view.findViewById<ImageButton>(R.id.btnBack)
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
         val fabAgregar = view.findViewById<FloatingActionButton>(R.id.fabAgregarInventario)
 
-        btnBack.setOnClickListener {
+        toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
 

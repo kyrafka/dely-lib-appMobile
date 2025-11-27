@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Idiomas -->
+    <string-array name="idiomas_array">
+        <item>Español</item>
+        <item>Inglés</item>
+        <item>Francés</item>
+        <item>Alemán</item>
+        <item>Italiano</item>
+        <item>Portugués</item>
+        <item>Japonés</item>
+        <item>Chino</item>
+        <item>Otro</item>
+    </string-array>
+    
+    <!-- Ediciones -->
+    <string-array name="ediciones_array">
+        <item>Primera edición</item>
+        <item>Segunda edición</item>
+        <item>Tercera edición</item>
+        <item>Edición especial</item>
+        <item>Edición de bolsillo</item>
+        <item>Edición de lujo</item>
+        <item>Otra…</item>
+    </string-array>
+</resources>

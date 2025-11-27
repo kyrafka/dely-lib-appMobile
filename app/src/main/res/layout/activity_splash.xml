@@ -1,53 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Fondo con la imagen -->
+    <!-- Gradient Background -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_splash" />
+
+    <!-- Background Image with slide animation -->
     <ImageView
         android:id="@+id/bgImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/bg_library"
         android:scaleType="centerCrop"
-        android:contentDescription="@null" />
+        android:alpha="0.3"
+        android:translationY="100dp"
+        android:contentDescription="Background" />
 
-    <!-- Capa semi-transparente para oscurecer un poco -->
+    <!-- Dark overlay -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000" />  <!-- negro 50% -->
+        android:background="#80000000" />
 
-    <!-- Contenido centrado -->
-    <LinearLayout
+    <!-- Content Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iconCart"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/ic_shopping_cart"
-            android:tint="?attr/colorPrimary" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <!-- App Icon -->
+            <ImageView
+                android:id="@+id/iconCart"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_shopping_cart"
+                android:scaleX="0"
+                android:scaleY="0"
+                android:alpha="0"
+                android:contentDescription="App Icon"
+                app:tint="@color/white" />
+
+            <!-- App Name -->
+            <TextView
+                android:id="@+id/tvLibraryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dely-Lib"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginTop="24dp"
+                android:alpha="0" />
+
+            <!-- Tagline -->
+            <TextView
+                android:id="@+id/tvTagline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tu librería digital"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="8dp"
+                android:alpha="0" />
+
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:indeterminateTint="@color/white" />
+
+        </LinearLayout>
+
+        <!-- Version Info -->
         <TextView
-            android:id="@+id/tvLibraryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dely-Lib"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:text="v1.0.0"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:alpha="0.7"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

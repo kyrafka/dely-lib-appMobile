@@ -36,8 +36,8 @@ class GeneroAdapter(
     inner class GeneroVH(view: View) : RecyclerView.ViewHolder(view) {
         val tvGenero: TextView = view.findViewById(R.id.tvGenero)
         val rvLibros: RecyclerView = view.findViewById(R.id.rvLibrosGenero)
-        val tvEmpty: TextView = view.findViewById(R.id.tvEmptyGenero)
-        val btnDetalle: ImageButton = view.findViewById(R.id.btnGeneroDetalle)
+        val tvEmpty: View = view.findViewById(R.id.tvEmptyGenero)
+        val btnDetalle: View = view.findViewById(R.id.btnGeneroDetalle)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GeneroVH {

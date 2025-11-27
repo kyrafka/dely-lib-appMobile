@@ -37,6 +37,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         super.onViewCreated(view, savedInstanceState)
 
         val btnBack = view.findViewById<ImageButton>(R.id.btnBack)
+        val btnSeleccionarUbicacion = view.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnSeleccionarUbicacion)
         val etDireccion = view.findViewById<EditText>(R.id.etDireccion)
         val etDistrito = view.findViewById<EditText>(R.id.etDistrito)
         val etCalle = view.findViewById<EditText>(R.id.etCalle)
@@ -47,6 +48,47 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
         btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+
+        // Listener para abrir selector de ubicación
+        btnSeleccionarUbicacion.setOnClickListener {
+            val fragment = LocationPickerFragment.newInstance()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // Recibir resultado del selector de ubicación
+        parentFragmentManager.setFragmentResultListener("location_result", viewLifecycleOwner) { _, bundle ->
+            val address = bundle.getString("address", "")
+            
+            // Parsear la dirección y llenar los campos automáticamente
+            if (address.isNotEmpty()) {
+                val parts = address.split(",").map { it.trim() }
+                when {
+                    parts.size >= 4 -> {
+                        etDireccion.setText(parts[0])
+                        etCalle.setText(parts[1])
+                        etDistrito.setText(parts[2])
+                        etCiudad.setText(parts[3])
+                    }
+                    parts.size == 3 -> {
+                        etDireccion.setText(parts[0])
+                        etDistrito.setText(parts[1])
+                        etCiudad.setText(parts[2])
+                    }
+                    parts.size == 2 -> {
+                        etDireccion.setText(parts[0])
+                        etCiudad.setText(parts[1])
+                    }
+                    else -> {
+                        etDireccion.setText(address)
+                    }
+                }
+                
+                Toast.makeText(requireContext(), "Ubicación seleccionada ✓", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // 👈 OBTENER userId REAL desde SharedPreferences
@@ -156,32 +198,10 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 val compraCreada = compraResponse.body()!!
                 val compraId = compraCreada.idCompra!!
 
-                // PASO 2: Crear detalles de compra
-                var todosLosDetallesCreados = true
-                for (item in items) {
-                    val detalleDTO = DetalleCompraDTO(
-                        idCompra = compraId,
-                        idLibro = item.idLibro,
-                        cantidad = item.cantidad,
-                        precioUnitario = item.precioUnitario,
-                        subtotal = item.precioUnitario * item.cantidad
-                    )
+                // NOTA: Los detalles de compra se crean automáticamente en el backend
+                // desde el carrito del usuario, no es necesario crearlos aquí
 
-                    val detalleResponse =
-                        detalleCompraRepository.crearDetalleCompra(sessionId, detalleDTO)
-                    if (!detalleResponse.isSuccessful) {
-                        val errorBody = detalleResponse.errorBody()?.string()
-                        mostrarError("Error al crear detalle para libro ${item.tituloLibro}: ${detalleResponse.code()} - $errorBody")
-                        todosLosDetallesCreados = false
-                        break
-                    }
-                }
-
-                if (!todosLosDetallesCreados) {
-                    return@launch
-                }
-
-                // PASO 3: Crear preferencia de pago en Mercado Pago
+                // PASO 2: Crear preferencia de pago en Mercado Pago
                 val preferenciaResponse = compraRepository.crearPreferenciaPago(sessionId, compraId)
                 if (!preferenciaResponse.isSuccessful) {
                     val errorBody = preferenciaResponse.errorBody()?.string()
@@ -191,7 +211,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
                 val preference = preferenciaResponse.body()!!
 
-                // PASO 4: Abrir Mercado Pago en navegador
+                // PASO 3: Abrir Mercado Pago en navegador
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(preference.initPoint))
                 startActivity(intent)
 
@@ -201,10 +221,10 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                // PASO 5: Limpiar carrito después del pago exitoso
-                carritoViewModel.limpiarCarrito(sessionId)
+                // NOTA: El carrito se limpia automáticamente en el backend
+                // después de crear la compra exitosamente
 
-                // PASO 6: Navegar a confirmación
+                // PASO 4: Navegar a confirmación
                 val fragment =
                     PagoConfirmacionFragment.newInstance(compraId, preference.totalAmount)
                 parentFragmentManager.beginTransaction()

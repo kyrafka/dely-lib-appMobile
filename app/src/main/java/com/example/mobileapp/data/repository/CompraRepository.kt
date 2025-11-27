@@ -26,4 +26,18 @@ class CompraRepository(
     suspend fun obtenerCompraPorId(sessionId: String, compraId: Long): Response<CompraDTO> {
         return compraApi.getCompraById(sessionId, compraId)
     }
+
+    // Actualizar estado de compra (para EMPRESA)
+    suspend fun actualizarEstadoCompra(
+        sessionId: String,
+        compraId: Long,
+        estado: Map<String, String>
+    ): Response<CompraDTO> {
+        return compraApi.actualizarEstadoCompra(sessionId, compraId, estado)
+    }
+
+    // Obtener todas las compras (para EMPRESA)
+    suspend fun obtenerTodasLasCompras(sessionId: String): Response<List<CompraDTO>> {
+        return compraApi.getAllCompras(sessionId)
+    }
 }

@@ -12,13 +12,15 @@ import com.example.mobileapp.data.remote.SessionStore
 import com.example.mobileapp.data.remote.model.LibroDTO
 import com.example.mobileapp.data.remote.model.inventario.InventarioDTO
 import com.example.mobileapp.data.repository.InventarioRepository
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
 class AgregarInventarioFragment : Fragment(R.layout.fragment_agregar_inventario) {
 
     private val viewModel: InventarioViewModel by viewModels {
-        InventarioViewModelFactory(InventarioRepository(RetrofitClient.inventarioApi))
+        InventarioViewModelFactory(InventarioRepository(RetrofitClient.inventarioApi, requireContext()))
     }
 
     private var inventarioId: Long? = null
@@ -28,8 +30,8 @@ class AgregarInventarioFragment : Fragment(R.layout.fragment_agregar_inventario)
     private lateinit var spinnerLibro: Spinner
     private lateinit var etPrecio: TextInputEditText
     private lateinit var etStock: TextInputEditText
-    private lateinit var btnGuardar: Button
-    private lateinit var tvTitle: TextView
+    private lateinit var btnGuardar: MaterialButton
+    private lateinit var toolbar: MaterialToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,12 +50,12 @@ class AgregarInventarioFragment : Fragment(R.layout.fragment_agregar_inventario)
         cargarLibros()
 
         if (isEditMode) {
-            tvTitle.text = "Editar Inventario"
-            btnGuardar.text = "Actualizar"
+            toolbar.title = "Editar Inventario"
+            btnGuardar.text = "Actualizar Inventario"
             cargarDatosInventario()
         } else {
-            tvTitle.text = "Agregar Inventario"
-            btnGuardar.text = "Crear"
+            toolbar.title = "Agregar Inventario"
+            btnGuardar.text = "Guardar Inventario"
         }
     }
 
@@ -62,7 +64,7 @@ class AgregarInventarioFragment : Fragment(R.layout.fragment_agregar_inventario)
         etPrecio = view.findViewById(R.id.etPrecio)
         etStock = view.findViewById(R.id.etStock)
         btnGuardar = view.findViewById(R.id.btnGuardar)
-        tvTitle = view.findViewById(R.id.tvTitle)
+        toolbar = view.findViewById(R.id.toolbar)
     }
 
     private fun setupObservers() {
@@ -82,14 +84,12 @@ class AgregarInventarioFragment : Fragment(R.layout.fragment_agregar_inventario)
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             btnGuardar.isEnabled = !isLoading
-            btnGuardar.text = if (isLoading) "Procesando..." else if (isEditMode) "Actualizar" else "Crear"
+            btnGuardar.text = if (isLoading) "Procesando..." else if (isEditMode) "Actualizar Inventario" else "Guardar Inventario"
         }
     }
 
     private fun setupClickListeners(view: View) {
-        val btnBack = view.findViewById<ImageButton>(R.id.btnBack)
-
-        btnBack.setOnClickListener {
+        toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
@@ -199,6 +199,11 @@ class AgregarInventarioFragment : Fragment(R.layout.fragment_agregar_inventario)
 
         if (stock == null || stock < 0) {
             etStock.error = "Stock no puede ser negativo"
+            return
+        }
+
+        if (spinnerLibro.selectedItemPosition == -1 || librosDisponibles.isEmpty()) {
+            Toast.makeText(requireContext(), "Debe seleccionar un libro", Toast.LENGTH_SHORT).show()
             return
         }
 

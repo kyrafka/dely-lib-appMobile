@@ -1,11 +1,12 @@
 package com.example.mobileapp.presentation.ui.inventario
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,8 @@ import com.bumptech.glide.load.model.LazyHeaders
 import com.example.mobileapp.R
 import com.example.mobileapp.data.remote.SessionStore
 import com.example.mobileapp.data.remote.model.inventario.InventarioConLibroDTO
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.chip.Chip
 
 class InventarioAdapter(
     private val onEditClick: (InventarioConLibroDTO) -> Unit,
@@ -27,9 +30,9 @@ class InventarioAdapter(
         val tvAutor: TextView = view.findViewById(R.id.tvAutor)
         val tvPrecio: TextView = view.findViewById(R.id.tvPrecio)
         val tvStock: TextView = view.findViewById(R.id.tvStock)
-        val tvEstadoStock: TextView = view.findViewById(R.id.tvEstadoStock)
-        val btnEditar: ImageButton = view.findViewById(R.id.btnEditar)
-        val btnEliminar: ImageButton = view.findViewById(R.id.btnEliminar)
+        val chipEstado: Chip = view.findViewById(R.id.chipEstado)
+        val btnEditar: MaterialButton = view.findViewById(R.id.btnEditar)
+        val btnEliminar: MaterialButton = view.findViewById(R.id.btnEliminar)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventarioViewHolder {
@@ -40,26 +43,27 @@ class InventarioAdapter(
 
     override fun onBindViewHolder(holder: InventarioViewHolder, position: Int) {
         val item = getItem(position)
+        val context = holder.itemView.context
 
         // Datos básicos
         holder.tvTitulo.text = item.tituloLibro ?: "Libro #${item.idLibro}"
         holder.tvAutor.text = item.autorLibro ?: "Autor desconocido"
         holder.tvPrecio.text = "$${String.format("%.2f", item.precio)}"
-        holder.tvStock.text = "Stock: ${item.cantidadStock}"
+        holder.tvStock.text = "Stock: ${item.cantidadStock} unidades"
 
         // Estado del stock
         when {
             item.cantidadStock <= 0 -> {
-                holder.tvEstadoStock.text = "Sin stock"
-                holder.tvEstadoStock.setTextColor(holder.itemView.context.getColor(android.R.color.holo_red_dark))
+                holder.chipEstado.text = "Sin stock"
+                holder.chipEstado.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.holo_red_dark))
             }
             item.cantidadStock <= 5 -> {
-                holder.tvEstadoStock.text = "Stock bajo"
-                holder.tvEstadoStock.setTextColor(holder.itemView.context.getColor(android.R.color.holo_orange_dark))
+                holder.chipEstado.text = "Stock bajo"
+                holder.chipEstado.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.holo_orange_dark))
             }
             else -> {
-                holder.tvEstadoStock.text = "Disponible"
-                holder.tvEstadoStock.setTextColor(holder.itemView.context.getColor(android.R.color.holo_green_dark))
+                holder.chipEstado.text = "Disponible"
+                holder.chipEstado.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary))
             }
         }
 

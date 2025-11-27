@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mobileapp.presentation.logreg.LoginFragment
 import com.example.mobileapp.presentation.ui.genero.GenerosFragment
 import com.example.mobileapp.data.remote.SessionStore
+import com.example.mobileapp.util.ThemeHelper
 
 class MainActivity : AppCompatActivity() {
 

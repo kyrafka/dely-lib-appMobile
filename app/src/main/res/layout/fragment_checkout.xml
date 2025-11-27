@@ -22,9 +22,9 @@
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@android:color/transparent"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_media_previous"
                 android:contentDescription="Volver"
                 app:tint="#4B0082"/>
@@ -56,6 +56,26 @@
                 android:text="Dirección de Envío"
                 android:textStyle="bold"
                 android:textSize="16sp"
+                android:textColor="#4B0082"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selecciona tu ubicación en el mapa o ingresa manualmente"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Botón para abrir selector de ubicación -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSeleccionarUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📍 Seleccionar en Mapa"
+                android:textAllCaps="false"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:strokeColor="#4B0082"
                 android:textColor="#4B0082"
                 android:layout_marginBottom="16dp" />
 

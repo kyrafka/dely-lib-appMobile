@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
 import com.example.mobileapp.data.repository.AuthRepository
+import com.example.mobileapp.data.remote.model.logreg.LoginRequest
 import com.example.mobileapp.data.remote.model.logreg.LoginResponse
 import retrofit2.Response
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.d("AuthViewModel", "Iniciando login con: $email")
-                val result = repository.login(email, password)
+                val loginRequest = LoginRequest(email, password)
+                val result = repository.login(loginRequest)
                 Log.d("AuthViewModel", "Respuesta: ${result.code()}, Exitoso: ${result.isSuccessful}")
                 _loginResult.postValue(result)
             } catch (e: Exception) {

@@ -4,24 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeColor="@color/surface"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="16dp">
 
-        <!-- Imagen del libro -->
-        <ImageView
-            android:id="@+id/ivPortada"
-            android:layout_width="80dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="12dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder" />
+        <!-- Imagen del libro con sombra -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/ivPortada"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder"
+                android:contentDescription="Portada del libro" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Contenido principal -->
         <LinearLayout
@@ -36,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Título del libro"
-                android:textColor="#4B0082"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:maxLines="2"
@@ -47,54 +58,92 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Autor"
-                android:textColor="#666666"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
 
-            <!-- Precio unitario -->
-            <TextView
-                android:id="@+id/tvPrecio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="$0.00"
-                android:textColor="#4B0082"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp" />
-
-            <!-- Control de cantidad -->
+            <!-- Precio unitario con ícono -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginTop="8dp">
 
-                <ImageButton
-                    android:id="@+id/btnDecrementar"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/btn_minus"
-                    app:tint="#4B0082" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_attach_money"
+                    app:tint="@color/primary"
+                    android:contentDescription="Precio" />
 
                 <TextView
-                    android:id="@+id/tvCantidad"
-                    android:layout_width="40dp"
+                    android:id="@+id/tvPrecio"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
+                    android:text="$0.00"
+                    android:textColor="@color/primary"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginHorizontal="8dp" />
+                    android:layout_marginStart="4dp" />
 
-                <ImageButton
-                    android:id="@+id/btnIncrementar"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/btn_plus"
-                    app:tint="#4B0082" />
+            </LinearLayout>
+
+            <!-- Control de cantidad mejorado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="12dp">
+
+                <!-- Botones de cantidad con fondo -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/surface_light"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="4dp">
+
+                        <ImageButton
+                            android:id="@+id/btnDecrementar"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_remove"
+                            app:tint="@color/primary"
+                            android:contentDescription="Disminuir cantidad" />
+
+                        <TextView
+                            android:id="@+id/tvCantidad"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textAlignment="center"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <ImageButton
+                            android:id="@+id/btnIncrementar"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_add"
+                            app:tint="@color/primary"
+                            android:contentDescription="Aumentar cantidad" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- Spacer -->
                 <View
@@ -102,14 +151,15 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <!-- Botón eliminar -->
+                <!-- Botón eliminar mejorado -->
                 <ImageButton
                     android:id="@+id/btnEliminar"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_delete"
-                    app:tint="#B00020" />
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/error"
+                    android:contentDescription="Eliminar" />
 
             </LinearLayout>
 
@@ -119,10 +169,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Subtotal: $0.00"
-                android:textColor="#4B0082"
+                android:textColor="@color/primary"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="8dp" />
 
         </LinearLayout>
     </LinearLayout>

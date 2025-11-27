@@ -9,9 +9,11 @@ import retrofit2.Response
 class AuthRepository(private val api: AuthApi) {
 
     /** Login: llama al endpoint /login */
-    suspend fun login(email: String, password: String): Response<LoginResponse> {
-        val request = LoginRequest(email = email, password = password)
-        return api.login(request)
+    suspend fun login(req: LoginRequest): Response<LoginResponse> {
+        if (com.example.mobileapp.data.remote.SessionStore.isOfflineMode) {
+            return Response.success(com.example.mobileapp.data.local.MockData.mockUser)
+        }
+        return api.login(req)
     }
 
     /** Registro: llama al endpoint /register */

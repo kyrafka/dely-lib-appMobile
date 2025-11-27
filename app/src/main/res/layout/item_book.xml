@@ -1,93 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="164dp"
+    android:id="@+id/cardBook"
+    android:layout_width="160dp"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="20dp"
     app:cardUseCompatPadding="true"
-    app:cardElevation="4dp">
+    app:cardElevation="8dp"
+    app:strokeWidth="0dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:foreground="?attr/selectableItemBackground">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ivPortada"
+        <!-- Portada con esquinas redondeadas y sombra -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder" />
+            android:layout_height="220dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_margin="12dp">
 
-        <ImageButton
-            android:id="@+id/btnEliminarLibro"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="6dp"
-            android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_menu_delete"
-            app:tint="#B00020"
-            android:visibility="gone" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/btnQuitarDeGenero"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="6dp"
-            android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            app:tint="#4B0082"
-            android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/ivPortada"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"
+                    android:contentDescription="Portada del libro" />
 
-        <TextView
-            android:id="@+id/tvTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Título del libro"
-            android:textStyle="bold"
-            android:textColor="#4B0082"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginTop="6dp" />
+                <!-- Gradiente sutil en la parte inferior -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/gradient_overlay" />
 
-        <!-- Autor -->
-        <TextView
-            android:id="@+id/tvAutor"
+            </FrameLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botones de acción (solo para empresa) -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Autor del libro"
-            android:textColor="#333333"
-            android:textSize="12sp"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
-        <!-- Sinopsis -->
-        <TextView
-            android:id="@+id/tvSinopsis"
+            <ImageButton
+                android:id="@+id/btnEliminarLibro"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/error"
+                android:visibility="gone"
+                android:contentDescription="Eliminar libro" />
+
+            <ImageButton
+                android:id="@+id/btnQuitarDeGenero"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/primary"
+                android:visibility="gone"
+                android:contentDescription="Quitar de género" />
+
+        </LinearLayout>
+
+        <!-- Información del libro -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Descripción breve"
-            android:textColor="#444444"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textSize="12sp"
-            android:layout_marginTop="2dp" />
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:paddingTop="4dp">
 
-        <!-- Estrellitas -->
-        <TextView
-            android:id="@+id/tvEstrellas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="★★★★★"
-            android:textColor="@android:color/holo_orange_light"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            <TextView
+                android:id="@+id/tvTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título del libro"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:lineSpacingExtra="2dp" />
+
+            <TextView
+                android:id="@+id/tvAutor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Autor del libro"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/tvSinopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descripción breve"
+                android:textColor="@color/text_secondary"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="11sp"
+                android:lineSpacingExtra="2dp"
+                android:layout_marginTop="4dp" />
+
+            <!-- Rating -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tvEstrellas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="★★★★★"
+                    android:textColor="#FFC107"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

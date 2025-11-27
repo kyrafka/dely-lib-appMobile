@@ -3,6 +3,7 @@ package com.example.mobileapp.data.remote.model.compra
 data class CompraDTO(
     val idCompra: Long? = null,
     val idUsuario: Long,
+    val nombreUsuario: String? = null,
     val direccionEnvio: String,
     val distrito: String,
     val calle: String,

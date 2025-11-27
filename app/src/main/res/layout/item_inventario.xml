@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardBackgroundColor="#FFFFFF"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/surface"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/outline_variant">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,41 +17,77 @@
         android:padding="12dp">
 
         <!-- Imagen del libro -->
-        <ImageView
-            android:id="@+id/ivPortada"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="80dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="12dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder" />
+            android:layout_height="120dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+
+            <ImageView
+                android:id="@+id/ivPortada"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Contenido principal -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
 
-            <!-- Título y autor -->
-            <TextView
-                android:id="@+id/tvTitulo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Título del libro"
-                android:textColor="#4B0082"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:maxLines="2"
-                android:ellipsize="end" />
+                android:orientation="horizontal"
+                android:gravity="top">
 
-            <TextView
-                android:id="@+id/tvAutor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Autor"
-                android:textColor="#666666"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Título y autor -->
+                    <TextView
+                        android:id="@+id/tvTitulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Título del libro"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:id="@+id/tvAutor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Autor"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEstado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Disponible"
+                    android:textColor="@color/white"
+                    app:chipBackgroundColor="@color/primary"
+                    app:chipMinHeight="24dp"
+                    android:textSize="10sp"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
 
             <!-- Precio -->
             <TextView
@@ -57,39 +95,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="$0.00"
-                android:textColor="#4B0082"
+                android:textColor="@color/primary"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="8dp" />
 
-            <!-- Stock y estado -->
-            <LinearLayout
+            <!-- Stock -->
+            <TextView
+                android:id="@+id/tvStock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp">
-
-                <TextView
-                    android:id="@+id/tvStock"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Stock: 0"
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tvEstadoStock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Disponible"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:padding="4dp"
-                    android:background="@drawable/bg_chip_selected"
-                    android:textColor="#FFFFFF" />
-
-            </LinearLayout>
+                android:text="Stock: 0 unidades"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:layout_marginTop="2dp" />
 
             <!-- Botones de acción -->
             <LinearLayout
@@ -99,22 +118,30 @@
                 android:gravity="end"
                 android:layout_marginTop="8dp">
 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnEditar"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_edit"
-                    app:tint="#4B0082"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@android:drawable/ic_menu_edit"
+                    app:iconTint="@color/primary"
+                    android:text="Editar"
+                    android:textColor="@color/primary"
+                    android:padding="0dp"
+                    android:minWidth="0dp"
                     android:layout_marginEnd="8dp" />
 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnEliminar"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_delete"
-                    app:tint="#B00020" />
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@drawable/ic_delete"
+                    app:iconTint="@color/error"
+                    android:text="Eliminar"
+                    android:textColor="@color/error"
+                    android:padding="0dp"
+                    android:minWidth="0dp" />
 
             </LinearLayout>
 
